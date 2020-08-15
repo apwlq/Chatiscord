@@ -1,0 +1,36 @@
+	
+<!DOCTYPE html>	
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>{{ channel }} Chat Box</title>
+  <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" type="text/css" />
+  <script type="text/javascript">
+    function ws(webSocket, div) {
+        webSocket.onopen = function(message){
+            div.innerHTML += "채팅서버 연결 완료<br>";
+        };
+        webSocket.onclose = function(message){
+            div.innerHTML += "채팅서버 연결해제<br>";
+        };
+        webSocket.onerror = function(message){
+            div.innerHTML += "채팅서버 오류발생<br>";
+        };
+        webSocket.onmessage = function(message){
+            var data = JSON.parse(String(message.data));
+            div.innerHTML += data["name"] + "<a>: </a>" + data["content"] + "<br>";
+            window.scrollTo(0,document.body.scrollHeight);
+        };
+    };
+  </script>
+  </head>
+<body>
+  <div id="chat"></div>
+  <script type="text/javascript">
+    ws(new WebSocket("ws://{{ ip }}:{{ port+1 }}"), document.getElementById('chat'));
+  </script>
+</body>
+</html>
