@@ -1,4 +1,4 @@
-import threading, requests, json, websockets, asyncio, discord, re, logging
+import threading, json, websockets, asyncio, discord, re, logging
 from flask import Flask, render_template, request
 
 ip = '0.0.0.0'
